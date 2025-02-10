@@ -10,7 +10,7 @@ Adafruit Trinkey Rotary Encoder (SAMD21)
 4) Connect it to your computer using the USB A extension lead
 5) Press the Reset button on the Trinkey twice, it should appear as a USB drive on your computer folder explorer thing
 6) Drag and drop the .uf2 file into the Trinkey USB drive, it should magically unmount then reappear as a "CircuitPython" USB drive
-7) Save this file onto the CircuitPython USB drive
+7) Save this code.py file onto the now appeared CircuitPython USB drive
 8) Go to your flight simulator, configure the keyboard keys it so that Numpad+ causes trim nose up, and Numpad- causes trim nose down
 9) Start a flight and rotate the knob to trim!
 10) Fashion some sort of stand and wheel. Cardboard, wood, or 3D printer, whatever works for you.
