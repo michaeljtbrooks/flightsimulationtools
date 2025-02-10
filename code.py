@@ -1,0 +1,55 @@
+"""
+Adafruit Trinkey Rotary Encoder (SAMD21)
+
+1) Buy the parts (https://thepihut.com/products/rotary-encoder-extras):
+  * Adafruit SAMD21 Rotary Trinkey
+  * Rotary encoder
+  * USB A extension lead
+2) Download the .uf2 Trinkey firmware from CircuitPython: https://circuitpython.org/board/adafruit_rotary_trinkey_m0/
+3) Solder the rotary encoder to the Adafruit Trinkey
+4) Connect it to your computer using the USB A extension lead
+5) Press the Reset button on the Trinkey twice, it should appear as a USB drive on your computer folder explorer thing
+6) Drag and drop the .uf2 file into the Trinkey USB drive, it should magically unmount then reappear as a "CircuitPython" USB drive
+7) Save this file onto the CircuitPython USB drive
+8) Go to your flight simulator, configure the keyboard keys it so that Numpad+ causes trim nose up, and Numpad- causes trim nose down
+9) Start a flight and rotate the knob to trim!
+10) Fashion some sort of stand and wheel. Cardboard, wood, or 3D printer, whatever works for you.
+"""
+import time
+import board
+import rotaryio
+import usb_hid
+
+from adafruit_hid.keyboard import Keyboard
+from adafruit_hid.keycode import Keycode
+
+# Constants
+key_presses_per_wheel_click = 8
+trim_up_keyboard_button = Keycode.KEYPAD_PLUS
+trim_down_keyboard_button = Keycode.KEYPAD_MINUS
+
+
+# Create a Keyboard object
+keyboard = Keyboard(usb_hid.devices)
+
+# Set up the rotary encoder
+encoder = rotaryio.IncrementalEncoder(board.ROTA, board.ROTB)
+last_position = encoder.position
+
+while True:
+    position = encoder.position
+    if position != last_position:
+        if position > last_position:
+            # Rotated clockwise -> Trim Up
+            for _ in range(0, key_presses_per_wheel_click):
+				keyboard.press(trim_up_keyboard_button)
+				keyboard.release_all()
+        else:
+            # Rotated anticlockwise -> Trim Down
+            for _ in range(0, key_presses_per_wheel_click):
+				keyboard.press(trim_down_keyboard_button)
+				keyboard.release_all()
+
+        last_position = position
+
+    time.sleep(0.005)
