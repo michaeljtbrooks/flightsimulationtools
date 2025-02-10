@@ -28,7 +28,6 @@ key_presses_per_wheel_click = 8
 trim_up_keyboard_button = Keycode.KEYPAD_PLUS
 trim_down_keyboard_button = Keycode.KEYPAD_MINUS
 
-
 # Create a Keyboard object
 keyboard = Keyboard(usb_hid.devices)
 
@@ -42,14 +41,13 @@ while True:
         if position > last_position:
             # Rotated clockwise -> Trim Up
             for _ in range(0, key_presses_per_wheel_click):
-				keyboard.press(trim_up_keyboard_button)
-				keyboard.release_all()
+                keyboard.press(trim_up_keyboard_button)
+                keyboard.release_all()
         else:
             # Rotated anticlockwise -> Trim Down
             for _ in range(0, key_presses_per_wheel_click):
-				keyboard.press(trim_down_keyboard_button)
-				keyboard.release_all()
+                keyboard.press(trim_down_keyboard_button)
+                keyboard.release_all()
 
         last_position = position
-
     time.sleep(0.005)
