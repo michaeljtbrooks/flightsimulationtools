@@ -45,15 +45,19 @@ while True:
     # Rotary encoder movement detection:
     position = encoder.position
     if position != last_position:
+        try:
+            n_wheel_clicks = abs(int(position - last_position))
+        except (ValueError, TypeError):
+            n_wheel_clicks = 1
         if position > last_position:
             # Rotated clockwise -> Trim Up
-            key_presses_left[trim_up_keyboard_button] = key_presses_per_wheel_click
+            key_presses_left[trim_up_keyboard_button] += (key_presses_per_wheel_click * n_wheel_clicks)
             key_presses_left[trim_down_keyboard_button] = 0
             # print("Trim up!")
         else:
             # Rotated anticlockwise -> Trim Down
             key_presses_left[trim_up_keyboard_button] = 0
-            key_presses_left[trim_down_keyboard_button] = key_presses_per_wheel_click
+            key_presses_left[trim_down_keyboard_button] += (key_presses_per_wheel_click * n_wheel_clicks)
             # print("Trim down!")
         last_position = position
     
@@ -70,4 +74,4 @@ while True:
         # print("    down")
 
     # Tick
-    time.sleep(0.005)
+    time.sleep(0.01)
