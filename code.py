@@ -28,6 +28,12 @@ key_presses_per_wheel_click = 8
 trim_up_keyboard_button = Keycode.KEYPAD_PLUS
 trim_down_keyboard_button = Keycode.KEYPAD_MINUS
 
+# Runtime vars
+key_presses_left = {
+    trim_up_keyboard_button: 0,
+    trim_down_keyboard_button: 0,
+}
+
 # Create a Keyboard object
 keyboard = Keyboard(usb_hid.devices)
 
@@ -36,18 +42,32 @@ encoder = rotaryio.IncrementalEncoder(board.ROTA, board.ROTB)
 last_position = encoder.position
 
 while True:
+    # Rotary encoder movement detection:
     position = encoder.position
     if position != last_position:
         if position > last_position:
             # Rotated clockwise -> Trim Up
-            for _ in range(0, key_presses_per_wheel_click):
-                keyboard.press(trim_up_keyboard_button)
-                keyboard.release_all()
+            key_presses_left[trim_up_keyboard_button] = key_presses_per_wheel_click
+            key_presses_left[trim_down_keyboard_button] = 0
+            # print("Trim up!")
         else:
             # Rotated anticlockwise -> Trim Down
-            for _ in range(0, key_presses_per_wheel_click):
-                keyboard.press(trim_down_keyboard_button)
-                keyboard.release_all()
-
+            key_presses_left[trim_up_keyboard_button] = 0
+            key_presses_left[trim_down_keyboard_button] = key_presses_per_wheel_click
+            # print("Trim down!")
         last_position = position
+    
+    # Action - now happens throughout main loop timedelta
+    if key_presses_left[trim_up_keyboard_button] > 0:
+        keyboard.press(trim_up_keyboard_button)
+        keyboard.release_all()
+        key_presses_left[trim_up_keyboard_button] = key_presses_left[trim_up_keyboard_button] - 1
+        # print("    up")
+    elif key_presses_left[trim_down_keyboard_button] > 0:
+        keyboard.press(trim_down_keyboard_button)
+        keyboard.release_all()
+        key_presses_left[trim_down_keyboard_button] = key_presses_left[trim_down_keyboard_button] - 1
+        # print("    down")
+
+    # Tick
     time.sleep(0.005)
