@@ -24,7 +24,7 @@ from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
 
 # Constants
-key_presses_per_wheel_click = 8
+key_presses_per_wheel_click = 12
 trim_up_keyboard_button = Keycode.KEYPAD_PLUS
 trim_down_keyboard_button = Keycode.KEYPAD_MINUS
 
@@ -74,4 +74,4 @@ while True:
         # print("    down")
 
     # Tick
-    time.sleep(0.002)
+    time.sleep(0.0002)
