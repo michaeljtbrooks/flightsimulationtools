@@ -12,7 +12,7 @@ Adafruit Trinkey Rotary Encoder (SAMD21) - Emulating as joystick axis
 6) Drag and drop the .uf2 file into the Trinkey USB drive, it should magically unmount then reappear as a "CircuitPython" USB drive
 7) Download the accompanying boot_custom_joystick.py file to the now appeared CircuitPython USB drive as boot.py
 8) Save this code_joystick_axis_emulation.py file as code.py to the now appeared CircuitPython USB drive
-9) Go to your flight simulator, configure the keyboard keys it so that Numpad+ causes trim nose up, and Numpad- causes trim nose down
+9) Go to your flight simulator, configure the Trinkey axis so that wheel up and away trims down, wheel down and toward trims up
 10) Start a flight and rotate the knob to trim!
 11) Fashion some sort of stand and wheel. Cardboard, wood, or 3D printer, whatever works for you.
 """
